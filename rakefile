@@ -143,6 +143,7 @@ task :clean do
     sys("rm \"#{ROOT_DIR}/uninstaller-patched.platypus\"") if File.exists?("#{ROOT_DIR}/uninstaller-patched.platypus")
     sys("rm \"#{ROOT_DIR}/installer-patched.pkgproj\"")  if File.exists?("#{ROOT_DIR}/installer-patched.pkgproj")
     sys("rm -rf \"#{ROOT_DIR}/TotalFinder Uninstaller.app\"")
+    sys("rm -rf \"#{RELEASE_DIR}/TotalFinder.mpkg\"")
 end
 
 task :default => :build
