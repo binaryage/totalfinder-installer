@@ -6,7 +6,7 @@ TMP_DIR_BIN = File.join(TMP_DIR, 'bin')
 TMP_DIR_BUILD = File.join(TMP_DIR, 'build')
 
 PARENT_DIR = File.expand_path('..')
-RELEASE_DIR = File.join(PARENT_DIR, 'releases')
+RELEASE_DIR = File.join(PARENT_DIR, 'release')
 
 OSAX_DIR     = File.join(PARENT_DIR, 'totalfinder-osax')
 KEXT_DIR     = File.join(PARENT_DIR, 'totalfinder-kext')
@@ -66,6 +66,7 @@ desc "builds installer+unistaller, point it to products=<path>"
 task :build do
     puts "#{'Checking environment ...'.magenta}"
     version()
+    sys("rm -rf \"#{TMP_DIR}\"")
     sys("mkdir -p #{TMP_DIR}") unless File.exists? TMP_DIR
     sys("mkdir -p #{TMP_DIR_BUILD}") unless File.exists? TMP_DIR_BUILD
     sys("mkdir -p #{RELEASE_DIR}") unless File.exists? RELEASE_DIR
@@ -73,13 +74,17 @@ task :build do
     $products = ENV["products"]
     unless $products then
         puts "no products path specified, using dummy products".red
-        sys("mkdir -p #{TMP_DIR_BIN}")
+        sys("mkdir -p \"#{TMP_DIR_BIN}\"")
         Dir.chdir TMP_DIR_BIN do
             sys("mkdir -p TotalFinder.app/Contents/Resources")
         end
         $products = TMP_DIR_BIN
+    else
+        $products = File.expand_path($products)
+        sys("mkdir -p #{TMP_DIR_BIN}")
+        sys("cp -r \"#{$products}\"/* \"#{TMP_DIR_BIN}\"")
     end
-    $products = File.expand_path($products)
+    
 
     sys("cp \"#{ROOT_DIR}/installer.pkgproj\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     patch("#{ROOT_DIR}/installer-patched.pkgproj", [
@@ -104,6 +109,8 @@ task :build do
     
     sys("cp -r \"#{uninstaller}\" \"#{TMP_DIR_BIN}/TotalFinder.app/Contents/Resources\"")
     die("build failed") unless $?==0
+
+    sys("lipo \"#{TMP_DIR_BIN}/TotalFinder.app/Contents/MacOS/applet\" -remove ppc7400 -output \"#{TMP_DIR_BIN}/TotalFinder.app/Contents/MacOS/applet\"")
    
     release = File.join(TMP_DIR_BUILD, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
