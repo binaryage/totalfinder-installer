@@ -11,7 +11,7 @@ BIN_DIR = File.join(PARENT_DIR, 'bin') #
 OSAX_DIR     = File.join(PARENT_DIR, 'totalfinder-osax')
 KEXT_DIR     = File.join(PARENT_DIR, 'totalfinder-kext')
 BREAKPAD_DIR = File.join(PARENT_DIR, 'totalfinder-breakpad')
-I18N_DIR     = File.join(PARENT_DIR, 'totalfinder-i18n')
+I18N_DIR     = File.join(PARENT_DIR, 'totalfinder-features', 'totalfinder-i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
 
 ################################################################################################

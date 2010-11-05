@@ -1019,7 +1019,7 @@
 				<key>BACKGROUND_PATH</key>
 				<dict>
 					<key>PATH</key>
-					<string>../totalfinder-i18n/installer/background.png</string>
+					<string>../totalfinder-features/totalfinder-i18n/installer/background.png</string>
 					<key>PATH_TYPE</key>
 					<integer>3</integer>
 				</dict>
@@ -1155,7 +1155,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../totalfinder-i18n/installer/English.lproj/welcome.rtf</string>
+							<string>../totalfinder-features/totalfinder-i18n/installer/English.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
