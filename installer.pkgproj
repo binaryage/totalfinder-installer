@@ -1160,6 +1160,17 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
+					<dict>
+						<key>LANGUAGE</key>
+						<string>Japanese</string>
+						<key>VALUE</key>
+						<dict>
+							<key>PATH</key>
+							<string>../totalfinder-features/totalfinder-i18n/installer/Japanese.lproj/welcome.rtf</string>
+							<key>PATH_TYPE</key>
+							<integer>1</integer>
+						</dict>
+					</dict>
 				</array>
 			</dict>
 			<key>LICENSE</key>
