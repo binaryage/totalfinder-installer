@@ -93,7 +93,7 @@ task :build do
 
     sys("cp \"#{ROOT_DIR}/TotalFinder Uninstaller.platypus\" \"#{ROOT_DIR}/uninstaller-patched.platypus\"")
     patch("#{ROOT_DIR}/uninstaller-patched.platypus", [
-        ["/Users/darwin/code/totalfinder/totalfinder-installer", ROOT_DIR]
+        ["/Users/darwin/code/totalfinder", "#{ROOT_DIR}/.."]
     ])
   
     uninstaller = File.join(ROOT_DIR, "TotalFinder Uninstaller.app")
@@ -117,7 +117,7 @@ task :build do
     sys("packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0
    
-    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder.icns")
+    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
     sys("./wincent-icon-util -icon \"#{installer_icon}\" -folder \"#{release}\"")
     die("build failed") unless $?==0
    
