@@ -1314,50 +1314,6 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>pt_PT</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/pt_PT.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>sv</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/sv.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>zh_CN</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/zh_CN.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>zh_TW</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/zh_TW.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
 				</array>
 			</dict>
 			<key>LICENSE</key>
