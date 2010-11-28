@@ -1162,55 +1162,11 @@
 					</dict>
 					<dict>
 						<key>LANGUAGE</key>
-						<string>German</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/German.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
 						<string>Japanese</string>
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
 							<string>../totalfinder-features/totalfinder-i18n/installer/Japanese.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Czech</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Czech.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Dutch</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Dutch.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>French</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/French.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -1239,77 +1195,11 @@
 					</dict>
 					<dict>
 						<key>LANGUAGE</key>
-						<string>Portuguese</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Portuguese.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Romanian</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Romanian.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
 						<string>Russian</string>
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
 							<string>../totalfinder-features/totalfinder-i18n/installer/Russian.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Slovak</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Slovak.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Slovenian</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Slovenian.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Spanish</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Spanish.lproj/welcome.rtf</string>
-							<key>PATH_TYPE</key>
-							<integer>1</integer>
-						</dict>
-					</dict>
-					<dict>
-						<key>LANGUAGE</key>
-						<string>Turkish</string>
-						<key>VALUE</key>
-						<dict>
-							<key>PATH</key>
-							<string>../totalfinder-features/totalfinder-i18n/installer/Turkish.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
