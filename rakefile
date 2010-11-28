@@ -108,7 +108,7 @@ task :build do
     sys("cp -r \"#{uninstaller}\" \"#{BIN_DIR}/TotalFinder.app/Contents/Resources\"")
     die("build failed") unless $?==0
 
-    sys("lipo \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\" -remove ppc7400 -output \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\"")
+    sys("lipo \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\" -remove ppc7400 -output \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\"; true")
    
     release = File.join($release, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
