@@ -7,6 +7,7 @@ osascript -e 'tell application "System Events"' -e 'make login item at beginning
 /usr/bin/defaults write com.apple.finder DisableAllAnimations -bool true
 /usr/bin/defaults write com.apple.finder _FXShowPosixPathInTitle -bool false
 /usr/bin/defaults write com.apple.finder AnimateWindowZoom -bool false
+/usr/bin/defaults write com.apple.finder FXDisableFancyWindowTransition -bool true
 
 sleep 2
 
