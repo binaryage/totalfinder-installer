@@ -74,6 +74,8 @@ on run
 	set stdout to stdout & "  enable Finder animations again ..." & newline
 	try
 		do shell script "defaults write com.apple.finder DisableAllAnimations -bool false" with administrator privileges
+		do shell script "defaults write com.apple.finder AnimateWindowZoom -bool true" with administrator privileges
+		do shell script "defaults write com.apple.finder FXDisableFancyWindowTransition -bool false" with administrator privileges
 	on error
 		set stdout to stdout & "    unable to enable animations back" & newline
 	end try
