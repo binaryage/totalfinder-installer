@@ -10,7 +10,7 @@
 	<string>Antonin Hildebrand</string>
 	<key>BundledFiles</key>
 	<array>
-		<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.scpt</string>
+		<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.applescript</string>
 	</array>
 	<key>Creator</key>
 	<string>Platypus-4.3</string>
@@ -54,7 +54,7 @@
 	<key>Role</key>
 	<string>Viewer</string>
 	<key>ScriptPath</key>
-	<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.scpt</string>
+	<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.applescript</string>
 	<key>Secure</key>
 	<false/>
 	<key>ShowInDock</key>
