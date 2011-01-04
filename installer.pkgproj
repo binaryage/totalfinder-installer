@@ -1248,6 +1248,7 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
+					<!--
 					<dict>
 						<key>LANGUAGE</key>
 						<string>Welsh</string>
@@ -1270,6 +1271,7 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
+					-->
                 </array>
 			</dict>
 			<key>LICENSE</key>
