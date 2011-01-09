@@ -112,8 +112,10 @@ task :build do
     
     # compile main.applescript -> main.scpt
     Dir.chdir("#{BIN_DIR}/TotalFinder.app/Contents/Resources/Scripts") do
-        sys("osacompile -o main.scpt main.applescript")
+        sys("osacompile -o main.scptd main.applescript")
         sys("rm main.applescript")
+        sys("mv main.scptd/Contents/Resources/Scripts/main.scpt main.scpt")
+        sys("rm -rf main.scptd")
     end
    
     release = File.join($release, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
