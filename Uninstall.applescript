@@ -79,6 +79,13 @@ on run
 	on error
 		set stdout to stdout & "    unable to enable animations back" & newline
 	end try
+
+	set stdout to stdout & "  hide system files in Finder again ..." & newline
+	try
+		do shell script "defaults write com.apple.finder AppleShowAllFiles -bool false" with administrator privileges
+	on error
+		set stdout to stdout & "    hide system files in Finder back" & newline
+	end try
 	
 	set stdout to stdout & "  relaunch Finder ..." & newline
 	try
