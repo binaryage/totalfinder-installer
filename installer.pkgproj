@@ -1318,6 +1318,7 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
+					<!--
 					<dict>
 						<key>LANGUAGE</key>
 						<string>Ukrainian</string>
@@ -1329,7 +1330,8 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
-                </array>
+					-->
+				</array>
 			</dict>
 			<key>LICENSE</key>
 			<dict>
