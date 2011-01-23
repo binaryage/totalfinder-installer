@@ -110,12 +110,9 @@ task :build do
 
     sys("lipo \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\" -remove ppc7400 -output \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\"; true")
     
-    # compile main.applescript -> main.scpt
+    # compilation of main.applescript -> main.scpt is done during build, here just check its presence
     Dir.chdir("#{BIN_DIR}/TotalFinder.app/Contents/Resources/Scripts") do
-        sys("osacompile -o main.scptd main.applescript")
-        sys("rm main.applescript")
-        sys("mv main.scptd/Contents/Resources/Scripts/main.scpt main.scpt")
-        sys("rm -rf main.scptd")
+        die("no main.scpt present!") unless File.exists? "main.scpt"
     end
    
     release = File.join($release, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
