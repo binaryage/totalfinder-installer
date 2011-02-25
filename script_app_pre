@@ -12,6 +12,7 @@ rm -rf "/Library/Application Support/SIMBL/Plugins/TotalFinder.bundle"
 # Some OS gods a protecting all *.bundle files under /Applications/TotalFinder.app
 # I guess it is some interference with new MAS AI introduced in 10.6.6
 # I saw they do some dirty Spotlight business to register apps with MAS App
+/usr/sbin/pkgutil --forget com.binaryage.pkg.totalfinder.app
 rm -rf "/Applications/TotalFinder.app"
 
 exit 0
