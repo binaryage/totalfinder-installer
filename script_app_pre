@@ -2,7 +2,4 @@
 
 osascript -e 'tell application "Finder" to quit'
 
-# remove existing SIMBL installation (0.8.2 and earlier)
-rm -rf "/Library/Application Support/SIMBL/Plugins/TotalFinder.bundle"
-
 exit 0
