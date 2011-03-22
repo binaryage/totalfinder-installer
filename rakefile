@@ -118,6 +118,9 @@ task :build do
     release = File.join($release, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
     die("build failed") unless $?==0
+    
+    # HACK!!!! => see BRUTEFORCE in script_app_post
+    sys("mv \"#{BIN_DIR}/TotalFinder.app/Contents/Resources/TotalFinder.bundle\" \"#{BIN_DIR}/TotalFinder.app/Contents/Resources/TotalFinder\"");
   
     sys("packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0

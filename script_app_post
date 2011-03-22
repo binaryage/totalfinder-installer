@@ -11,4 +11,14 @@ osascript -e 'tell application "System Events"' -e 'make login item at beginning
 
 sleep 2
 
+# BRUTEFORCE: rename TotalFinder -> TotalFinder.bundle
+# why? installer machinery stopped working for me strangely in 1.1.6, without any obvious reason
+# reverted back to Packages 1.0.3 with the same issue...
+#
+# Some OS gods a protecting all *.bundle files under /Applications/TotalFinder.app
+# I guess it is some interference with new MAS AI introduced in 10.6.6
+# I saw they do some dirty Spotlight business to register apps with MAS App
+rm -rf "/Applications/TotalFinder.app/Contents/Resources/TotalFinder.bundle"
+mv "/Applications/TotalFinder.app/Contents/Resources/TotalFinder" "/Applications/TotalFinder.app/Contents/Resources/TotalFinder.bundle"
+
 open "/Applications/TotalFinder.app"
