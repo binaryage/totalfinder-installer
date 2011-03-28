@@ -109,6 +109,10 @@ task :build do
     die("build failed") unless $?==0
 
     sys("lipo \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\" -remove ppc7400 -output \"#{BIN_DIR}/TotalFinder.app/Contents/MacOS/applet\"; true")
+
+    patch("#{BIN_DIR}/TotalFinder.app/Contents/Info.plist", [
+        ['##VERSION##', $version]
+    ])
     
     # compilation of main.applescript -> main.scpt is done during build, here just check its presence
     Dir.chdir("#{BIN_DIR}/TotalFinder.app/Contents/Resources/Scripts") do
