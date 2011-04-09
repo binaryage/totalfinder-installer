@@ -137,7 +137,7 @@ task :build do
     sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
     die("build failed") unless $?==0
    
-    sys("wkhtmltopdf \"#{I18N_DIR_INSTALLER}/readme.html\" \"#{TMP_DIR}/Readme.pdf\"")
+    sys("phantomjs \"#{ROOT_DIR}/readme-render.js\" \"#{I18N_DIR_INSTALLER}/readme.html\" \"#{TMP_DIR}/Readme.pdf\"")
     readme = File.join(TMP_DIR, "Readme.pdf")
  
     sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
