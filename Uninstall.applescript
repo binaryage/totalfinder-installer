@@ -66,9 +66,9 @@ on run
 	
 	set stdout to stdout & "  remove TotalFinder.osax ..." & newline
 	try
-		do shell script "sudo rm -rf \"/Applications/TotalFinder.app\"" with administrator privileges
+		do shell script "sudo rm -rf \"/Library/ScriptingAdditions/TotalFinder.osax\"" with administrator privileges
 	on error
-		set stdout to stdout & "    unable to remove /Applications/TotalFinder.app" & newline
+		set stdout to stdout & "    unable to remove /Library/ScriptingAdditions/TotalFinder.osax" & newline
 	end try
 	
 	set stdout to stdout & "  enable Finder animations again ..." & newline
