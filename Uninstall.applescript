@@ -2,6 +2,13 @@ property stdout : ""
 on run
 	set newline to ASCII character 10
 	
+	set stdout to stdout & "  shutdown TotalFinderCrashWatcher ..." & newline
+	try
+		do shell script "killall -SIGINT TotalFinderCrashWatcher" with administrator privileges
+	on error
+		set stdout to stdout & "    TotalFinderCrashWatcher.com not running" & newline
+	end try
+	
 	set stdout to stdout & "  shutdown Finder ..." & newline
 	try
 		tell application "Finder" to quit
@@ -20,7 +27,6 @@ on run
 	on error
 		set stdout to stdout & "    Encountered problems when removing TotalFinder.app from login items"
 	end try
-	
 	
 	-- old version
 	set stdout to stdout & "  removing the old TotalFinder files (0.8.2 and earlier) ..." & newline

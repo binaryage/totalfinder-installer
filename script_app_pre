@@ -2,4 +2,6 @@
 
 osascript -e 'tell application "Finder" to quit'
 
+killall -SIGINT TotalFinderCrashWatcher
+
 exit 0
