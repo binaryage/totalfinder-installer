@@ -6,13 +6,9 @@ tell application "Finder"
 		display dialog "
 Unable to launch TotalFinder.
 		
-" & msg & " ( " & (num as text) & ")" & " 
+" & msg & " (" & (num as text) & ")" & " 
 
-TotalFinder.app is expected to be located in \"/Applications\" folder
-		
-Please check output in Console.app.
-
-You may also visit 
+You may visit 
 http://getsatisfaction.com/binaryage 
 to get support on this issue." with icon 0
 	end try
