@@ -8,7 +8,6 @@ PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BIN_DIR = File.join(PARENT_DIR, 'bin') # 
 
-OSAX_DIR     = File.join(PARENT_DIR, 'totalfinder-osax')
 KEXT_DIR     = File.join(PARENT_DIR, 'totalfinder-kext')
 BREAKPAD_DIR = File.join(PARENT_DIR, 'totalfinder-breakpad')
 I18N_DIR     = File.join(PARENT_DIR, 'totalfinder-features', 'totalfinder-i18n')
