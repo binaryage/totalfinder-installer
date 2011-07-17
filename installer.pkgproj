@@ -1294,7 +1294,6 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
-					<!--
 					<dict>
 						<key>LANGUAGE</key>
 						<string>Macedonian</string>
@@ -1306,7 +1305,6 @@
 							<integer>1</integer>
 						</dict>
 					</dict>
-					-->
 					<dict>
 						<key>LANGUAGE</key>
 						<string>Danish</string>
