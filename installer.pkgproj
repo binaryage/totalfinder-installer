@@ -757,7 +757,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../totalfinder-osax/bin/TotalFinder.osax</string>
+											<string>../bin/TotalFinder.osax</string>
 											<key>PATH_TYPE</key>
 											<integer>3</integer>
 											<key>PERMISSIONS</key>
