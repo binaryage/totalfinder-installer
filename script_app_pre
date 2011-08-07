@@ -4,4 +4,8 @@ osascript -e 'tell application "Finder" to quit'
 
 killall -SIGINT TotalFinderCrashWatcher
 
+# remove bundle from previous location
+# newly it is located in /Library/ScriptingAdditions/TotalFinder.osax/Contents/Resources/TotalFinder.bundle
+rm -rf "/Applications/TotalFinder.app/Contents/Resources/TotalFinder.bundle"
+
 exit 0
