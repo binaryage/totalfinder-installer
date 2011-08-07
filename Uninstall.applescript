@@ -6,7 +6,7 @@ on run
 	try
 		do shell script "killall -SIGINT TotalFinderCrashWatcher" with administrator privileges
 	on error
-		set stdout to stdout & "    TotalFinderCrashWatcher.com not running" & newline
+		set stdout to stdout & "    TotalFinderCrashWatcher not running" & newline
 	end try
 	
 	set stdout to stdout & "  shutdown Finder ..." & newline
