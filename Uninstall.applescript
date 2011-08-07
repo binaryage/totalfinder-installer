@@ -6,7 +6,7 @@ on run
 	try
 		do shell script "killall -SIGINT TotalFinderCrashWatcher" with administrator privileges
 	on error
-		set stdout to stdout & "    TotalFinderCrashWatcher not running" & newline
+		set stdout to stdout & "    TotalFinderCrashWatcher was not running" & newline
 	end try
 	
 	set stdout to stdout & "  shutdown Finder ..." & newline
@@ -99,6 +99,8 @@ on run
 	on error
 		set stdout to stdout & "    failed to relaunch Finder" & newline
 	end try
+	
+	set stdout to stdout & "TotalFinder uninstallation done" & newline
 	
 	-- at this point Finder should start cleanly and with no signs of TotalFinder
 	-- you may check Events/Replies tab to see if there were no issues with uninstallation
