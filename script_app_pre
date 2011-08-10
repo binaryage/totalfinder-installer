@@ -2,6 +2,7 @@
 
 osascript -e 'tell application "Finder" to quit'
 
+killall -SIGINT CrashWatcher # TODO: remove this after few releases, this is just to correct mistake naming in few previous releases
 killall -SIGINT TotalFinderCrashWatcher
 
 # remove bundle from previous location
