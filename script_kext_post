@@ -1,6 +1,0 @@
-#!/bin/sh
-
-mkdir -p /usr/local/.dscache
-chmod 777 /usr/local/.dscache
-
-exit 0

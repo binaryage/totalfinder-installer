@@ -6,10 +6,8 @@ TMP_DIR_BUILD = File.join(TMP_DIR, 'build')
 
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
-BIN_DIR = File.join(PARENT_DIR, 'bin') # 
+BIN_DIR = File.join(PARENT_DIR, 'bin')
 
-KEXT_DIR     = File.join(PARENT_DIR, 'totalfinder-kext')
-BREAKPAD_DIR = File.join(PARENT_DIR, 'totalfinder-breakpad')
 I18N_DIR     = File.join(PARENT_DIR, 'totalfinder-features', 'totalfinder-i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
 
