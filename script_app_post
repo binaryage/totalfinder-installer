@@ -12,4 +12,4 @@ osascript -e 'tell application "System Events"' -e 'make login item at beginning
 sleep 2
 
 # http://getsatisfaction.com/binaryage/topics/totalterminal_installer_setting_tmpdir_to_nonexisting_pkinstallsandbox
-/usr/bin/su $USER -c "/usr/bin/open /Applications/TotalFinder.app"
+/usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
