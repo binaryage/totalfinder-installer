@@ -133,7 +133,7 @@ task :build do
     readme = File.join(TMP_DIR, "Readme.pdf")
     sys("mv \"#{readme_source}\" \"#{readme}\"")
  
-    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
+    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
     die("build failed") unless $?==0
     
     Rake::Task["clean"].execute
