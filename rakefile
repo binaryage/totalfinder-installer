@@ -8,7 +8,7 @@ PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BIN_DIR = File.join(PARENT_DIR, 'bin')
 
-I18N_DIR     = File.join(PARENT_DIR, 'totalfinder-features', 'totalfinder-i18n')
+I18N_DIR     = File.join(PARENT_DIR, 'i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
 
 ################################################################################################
@@ -85,13 +85,14 @@ task :build do
     patch("#{ROOT_DIR}/installer-patched.pkgproj", [
         ['##VERSION##', $version], 
         ['##INSTALLER_TITLE##', "TotalFinder #{$version}"],
-        ['/Users/darwin/code/totalfinder/release', $release]
+        ['##ROOT_PATH##', PARENT_DIR],
+        ['##BUILD_PATH##', $release]
     ])
 
     sys("cp \"#{ROOT_DIR}/TotalFinder Uninstaller.platypus\" \"#{ROOT_DIR}/uninstaller-patched.platypus\"")
-    patch("#{ROOT_DIR}/uninstaller-patched.platypus", [
-        ["/Users/darwin/code/totalfinder", "#{ROOT_DIR}/.."]
-    ])
+    # patch("#{ROOT_DIR}/uninstaller-patched.platypus", [
+    #     ["/Users/darwin/code/totalfinder", "#{ROOT_DIR}/.."]
+    # ])
   
     uninstaller = File.join(ROOT_DIR, "TotalFinder Uninstaller.app")
     uninstaller_profile = File.join(ROOT_DIR, "uninstaller-patched.platypus")

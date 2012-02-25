@@ -10,12 +10,12 @@
 	<string>Antonin Hildebrand</string>
 	<key>BundledFiles</key>
 	<array>
-		<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.applescript</string>
+		<string>Uninstall.applescript</string>
 	</array>
 	<key>Creator</key>
 	<string>Platypus-4.3</string>
 	<key>CustomIconPath</key>
-	<string>/Users/darwin/code/totalfinder/totalfinder-features/totalfinder-i18n/installer/totalfinder-uninstaller.icns</string>
+	<string>../i18n/installer/totalfinder-uninstaller.icns</string>
 	<key>Destination</key>
 	<string>/Users/darwin/Desktop/MyApp.app</string>
 	<key>DestinationOverride</key>
@@ -54,7 +54,7 @@
 	<key>Role</key>
 	<string>Viewer</string>
 	<key>ScriptPath</key>
-	<string>/Users/darwin/code/totalfinder/totalfinder-installer/Uninstall.applescript</string>
+	<string>Uninstall.applescript</string>
 	<key>Secure</key>
 	<false/>
 	<key>ShowInDock</key>
