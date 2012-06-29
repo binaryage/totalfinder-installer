@@ -7,8 +7,12 @@ TMP_DIR_BUILD = File.join(TMP_DIR, 'build')
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BIN_DIR = File.join(PARENT_DIR, 'bin')
+BIN_TOTALFINDER_BUNDLE = File.join(BIN_DIR, 'TotalFinder.osax/Contents/Resources/TotalFinder.bundle')
+BIN_TOTALFINDER_PLUGINS = File.join(BIN_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
+BIN_TOTALFINDER_FRAMEWORKS = File.join(BIN_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
+BIN_TOTALFINDER_RESOURCES = File.join(BIN_TOTALFINDER_BUNDLE, 'Contents/Resources')
 
-I18N_DIR     = File.join(PARENT_DIR, 'i18n')
+I18N_DIR = File.join(PARENT_DIR, 'i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
 
 ################################################################################################
@@ -54,6 +58,17 @@ def patch(path, replacers)
   File.open(path, "w") do |f|
     f << lines.join
   end
+end
+
+def codesign(path)
+  sys("codesign --force --sign \"Developer ID Application: BinaryAge Limited\" \"#{path}\"")
+end
+
+def productsign(path)
+  tmp_path = path+"-tmp"
+  sys("mv \"#{path}\" \"#{tmp_path}\"")
+  sys("productsign --sign \"Developer ID Installer: BinaryAge Limited\" \"#{tmp_path}\" \"#{path}\"")
+  sys("rm \"#{tmp_path}\"")
 end
 
 ################################################################################################
@@ -102,9 +117,22 @@ task :build do
     
     sys("platypus -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
     die("build failed") unless $?==0
+
+    codesign(uninstaller)
     
     sys("cp -r \"#{uninstaller}\" \"#{BIN_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources\"")
     die("build failed") unless $?==0
+
+    # codesign stuff
+    codesign(File.join(BIN_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/finish_installation.app"))
+    codesign(File.join(BIN_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
+    codesign(File.join(BIN_TOTALFINDER_FRAMEWORKS, "TotalKit.framework/Versions/A"))
+    Dir.glob(File.join(BIN_TOTALFINDER_PLUGINS, "*")) do |plugin|
+        codesign(plugin)
+    end
+    codesign(File.join(BIN_TOTALFINDER_RESOURCES, "TotalFinderCrashWatcher.app"))
+    codesign(File.join(BIN_TOTALFINDER_BUNDLE))
+    codesign(File.join(BIN_DIR, "TotalFinder.osax"))
 
     patch("#{BIN_DIR}/TotalFinder.app/Contents/Info.plist", [
         ['##VERSION##', $version]
@@ -115,15 +143,20 @@ task :build do
         die("no main.scpt present!") unless File.exists? "main.scpt"
     end
    
-    release = File.join($release, "TotalFinder.mpkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
+    release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
     die("build failed") unless $?==0
+    
+    codesign("#{BIN_DIR}/TotalFinder.app")
     
     sys("packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0
    
+    # codesign the pkg
+    productsign(release)
+
     installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
-    sys("./wincent-icon-util -icon \"#{installer_icon}\" -folder \"#{release}\"")
+    sys("./setfileicon \"#{installer_icon}\" \"#{release}\"")
     die("build failed") unless $?==0
    
     releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
