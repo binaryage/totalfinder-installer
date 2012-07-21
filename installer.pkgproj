@@ -860,7 +860,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>TotalFinder requires Lion (OSX 10.7)</string>
+							<string>Latest TotalFinder runs only with Lions (OS X 10.7+)</string>
 						</dict>
 					</array>
 					<key>NAME</key>
