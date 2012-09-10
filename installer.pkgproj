@@ -22,7 +22,7 @@
 									<key>GID</key>
 									<integer>80</integer>
 									<key>PATH</key>
-									<string>../bin/TotalFinder.app</string>
+									<string>../build/TotalFinder.app</string>
 									<key>PATH_TYPE</key>
 									<integer>3</integer>
 									<key>PERMISSIONS</key>
@@ -282,7 +282,7 @@
 											<key>GID</key>
 											<integer>80</integer>
 											<key>PATH</key>
-											<string>../bin/TotalFinder.osax</string>
+											<string>../build/TotalFinder.osax</string>
 											<key>PATH_TYPE</key>
 											<integer>3</integer>
 											<key>PERMISSIONS</key>
