@@ -156,7 +156,7 @@ task :build do
     productsign(release)
 
     installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
-    sys("./setfileicon \"#{installer_icon}\" \"#{release}\"")
+    sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
     die("build failed") unless $?==0
    
     releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
