@@ -115,7 +115,7 @@ task :build do
     sys("rm -rf \"#{uninstaller}\"") if File.exist? uninstaller
     die("build failed") unless $?==0
     
-    sys("platypus -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
+    sys("./bin/platypus/platypus_clt -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
     die("build failed") unless $?==0
 
     codesign(uninstaller)

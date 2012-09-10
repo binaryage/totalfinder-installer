@@ -29,7 +29,7 @@
 	<key>Droppable</key>
 	<false/>
 	<key>ExecutablePath</key>
-	<string>/usr/local/share/platypus/ScriptExec</string>
+	<string>./bin/platypus/ScriptExec</string>
 	<key>FileTypes</key>
 	<array>
 		<string>****</string>
@@ -46,7 +46,7 @@
 	<key>Name</key>
 	<string>TotalFinder Uninstaller</string>
 	<key>NibPath</key>
-	<string>/usr/local/share/platypus/MainMenu.nib</string>
+	<string>./bin/platypus/MainMenu.nib</string>
 	<key>OptimizeApplication</key>
 	<true/>
 	<key>Output</key>
