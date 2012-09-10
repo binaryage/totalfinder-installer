@@ -149,7 +149,7 @@ task :build do
     
     codesign("#{BIN_DIR}/TotalFinder.app")
     
-    sys("packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
+    sys("./bin/packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0
    
     # codesign the pkg
