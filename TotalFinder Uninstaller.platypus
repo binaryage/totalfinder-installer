@@ -15,7 +15,7 @@
 		<string>Uninstall.applescript</string>
 	</array>
 	<key>Creator</key>
-	<string>Platypus-4.7</string>
+	<string>Platypus-4.8</string>
 	<key>DeclareService</key>
 	<false/>
 	<key>Destination</key>
