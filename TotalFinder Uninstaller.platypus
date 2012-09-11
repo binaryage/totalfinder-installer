@@ -36,7 +36,7 @@
 		<string>fold</string>
 	</array>
 	<key>IconPath</key>
-	<string>../i18n/installer/totalfinder-uninstaller.icns</string>
+	<string>../shared/i18n/installer/totalfinder-uninstaller.icns</string>
 	<key>Identifier</key>
 	<string>com.binaryage.totalfinder.uninstaller</string>
 	<key>Interpreter</key>
