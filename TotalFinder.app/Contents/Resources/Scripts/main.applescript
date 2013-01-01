@@ -1,5 +1,5 @@
 tell application "Finder"
-	delay 1 -- this delay is important to prevent random "Connection is Invalid -609" AppleScript errors 
+	delay 3 -- this delay is important to prevent random "Connection is Invalid -609" AppleScript errors 
 	try
 		«event BATFinit»
 	on error msg number num
