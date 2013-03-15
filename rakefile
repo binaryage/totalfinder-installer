@@ -82,7 +82,7 @@ task :build do
     sys("mkdir -p #{TMP_DIR}") unless File.exists? TMP_DIR
     sys("mkdir -p #{TMP_DIR_BUILD}") unless File.exists? TMP_DIR_BUILD
     sys("mkdir -p #{RELEASE_DIR}") unless File.exists? RELEASE_DIR
-    
+
     $products = ENV["products"]
     unless $products then
         puts "no products path specified, using dummy products".red
@@ -95,10 +95,10 @@ task :build do
     $products = File.expand_path($products)
 
     $release = File.expand_path(ENV["release"] || RELEASE_DIR)
-    
+
     sys("cp \"#{ROOT_DIR}/installer.pkgproj\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     patch("#{ROOT_DIR}/installer-patched.pkgproj", [
-        ['##VERSION##', $version], 
+        ['##VERSION##', $version],
         ['##INSTALLER_TITLE##', "TotalFinder #{$version}"],
         ['##ROOT_PATH##', PARENT_DIR],
         ['##BUILD_PATH##', $release]
@@ -108,27 +108,32 @@ task :build do
     # patch("#{ROOT_DIR}/uninstaller-patched.platypus", [
     #     ["/Users/darwin/code/totalfinder", "#{ROOT_DIR}/.."]
     # ])
-  
+
     uninstaller = File.join(ROOT_DIR, "TotalFinder Uninstaller.app")
     uninstaller_profile = File.join(ROOT_DIR, "uninstaller-patched.platypus")
-  
+
     sys("rm -rf \"#{uninstaller}\"") if File.exist? uninstaller
     die("build failed") unless $?==0
-    
+
     sys("./bin/platypus/platypus_clt -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
     die("build failed") unless $?==0
 
     codesign(uninstaller)
-    
+
     sys("cp -r \"#{uninstaller}\" \"#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources\"")
     die("build failed") unless $?==0
 
     # codesign stuff
+    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Growl.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/finish_installation.app"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
+    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "BAKit.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "TotalKit.framework/Versions/A"))
     Dir.glob(File.join(BUILD_TOTALFINDER_PLUGINS, "*")) do |plugin|
         codesign(plugin)
+        Dir.glob(File.join(File.join(plugin, "Contents", "Frameworks"), "*")) do |framework|
+          codesign(File.join(framework, "Versions", "A"))
+        end
     end
     codesign(File.join(BUILD_TOTALFINDER_RESOURCES, "TotalFinderCrashWatcher.app"))
     codesign(File.join(BUILD_TOTALFINDER_BUNDLE))
@@ -137,42 +142,42 @@ task :build do
     patch("#{BUILD_DIR}/TotalFinder.app/Contents/Info.plist", [
         ['##VERSION##', $version]
     ])
-    
+
     # compilation of main.applescript -> main.scpt is done during build, here just check its presence
     Dir.chdir("#{BUILD_DIR}/TotalFinder.app/Contents/Resources/Scripts") do
         die("no main.scpt present!") unless File.exists? "main.scpt"
     end
-   
+
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
     die("build failed") unless $?==0
-    
+
     codesign("#{BUILD_DIR}/TotalFinder.app")
-    
+
     sys("./bin/packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0
-   
+
     # codesign the pkg
     productsign(release)
 
     installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
     sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
     die("build failed") unless $?==0
-   
+
     releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
     sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
     die("build failed") unless $?==0
-   
+
     readme_source = File.join(I18N_DIR_INSTALLER, "readme.pdf")
     readme = File.join(TMP_DIR, "Readme.pdf")
     sys("mv \"#{readme_source}\" \"#{readme}\"")
- 
+
     sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
     die("build failed") unless $?==0
-    
+
     Rake::Task["clean"].execute
 end
-  
+
 desc "removes intermediate build files"
 task :clean do
     puts "Cleaning intermediate build files...".magenta
