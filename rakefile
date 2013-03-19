@@ -71,6 +71,25 @@ def productsign(path)
   sys("rm \"#{tmp_path}\"")
 end
 
+def lipo(dir)
+  puts "Doing liposuction in #{dir.blue} ..."
+  Dir.chdir(dir) do
+    binaries = []
+    Dir.glob("**/Frameworks/*.framework") do |framework|
+      base = File.basename framework, ".framework"
+      full = File.join(framework, base)
+      binaries << full
+    end
+    Dir.glob("**/MacOS/*") do |exe|
+      binaries << exe
+    end
+
+    binaries.each do |binary|
+      sys("lipo -thin x86_64 -output \"#{binary}\" \"#{binary}\"") unless `lipo -info \"#{binary}\"` =~ /^Non-fat/
+    end
+  end
+end
+
 ################################################################################################
 # tasks
 
@@ -122,6 +141,7 @@ task :build do
 
     sys("cp -r \"#{uninstaller}\" \"#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources\"")
     die("build failed") unless $?==0
+    lipo("#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources")
 
     # codesign stuff
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Growl.framework/Versions/A"))
