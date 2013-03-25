@@ -194,19 +194,6 @@ task :build do
 
     sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
     die("build failed") unless $?==0
-
-    Rake::Task["clean"].execute
-end
-
-desc "removes intermediate build files"
-task :clean do
-    puts "Cleaning intermediate build files...".magenta
-    sys("rm -rf \"#{TMP_DIR}\"")
-    sys("rm -rf \"#{BUILD_DIR}\"")
-    sys("rm \"#{ROOT_DIR}/uninstaller-patched.platypus\"") if File.exists?("#{ROOT_DIR}/uninstaller-patched.platypus")
-    sys("rm \"#{ROOT_DIR}/installer-patched.pkgproj\"")  if File.exists?("#{ROOT_DIR}/installer-patched.pkgproj")
-    sys("rm -rf \"#{ROOT_DIR}/TotalFinder Uninstaller.app\"")
-    sys("rm -rf \"#{File.expand_path(ENV["release"] || RELEASE_DIR)}/TotalFinder.mpkg\"")
 end
 
 task :default => :build
