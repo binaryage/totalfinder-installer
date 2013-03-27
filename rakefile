@@ -137,6 +137,9 @@ task :build do
     sys("./bin/platypus/platypus_clt -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
     die("build failed") unless $?==0
 
+    # strip uninstaller
+    sys("strip -Sx \"#{uninstaller}/Contents/MacOS/TotalFinder Uninstaller\"")
+
     codesign(uninstaller)
 
     sys("cp -r \"#{uninstaller}\" \"#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources\"")
