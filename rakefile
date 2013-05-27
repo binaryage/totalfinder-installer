@@ -12,7 +12,7 @@ BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIn
 BUILD_TOTALFINDER_FRAMEWORKS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
 BUILD_TOTALFINDER_RESOURCES = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Resources')
 
-I18N_DIR = File.join(PARENT_DIR, 'shared', 'i18n')
+I18N_DIR = File.join(PARENT_DIR, 'i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
 
 ################################################################################################
