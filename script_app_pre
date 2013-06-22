@@ -1,5 +1,7 @@
 #!/bin/sh
 
+killall TotalFinder
+
 osascript -e 'tell application "Finder" to quit'
 
 killall -SIGINT TotalFinderCrashWatcher
