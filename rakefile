@@ -166,11 +166,6 @@ task :build do
         ['##VERSION##', $version]
     ])
 
-    # compilation of main.applescript -> main.scpt is done during build, here just check its presence
-    Dir.chdir("#{BUILD_DIR}/TotalFinder.app/Contents/Resources/Scripts") do
-        die("no main.scpt present!") unless File.exists? "main.scpt"
-    end
-
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
     die("build failed") unless $?==0
