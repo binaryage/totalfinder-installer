@@ -6,15 +6,4 @@ osascript -e 'tell application "Finder" to quit'
 
 killall -SIGINT TotalFinderCrashWatcher
 
-# remove bundle from previous location
-# newly it is located in /Library/ScriptingAdditions/TotalFinder.osax/Contents/Resources/TotalFinder.bundle
-rm -rf "/Applications/TotalFinder.app/Contents/Resources/TotalFinder.bundle"
-
-# force remove kext+asepsis from previous versions
-if [ -d "/System/Library/Extensions/TotalFinder.kext" ]; then
-    kextunload "/System/Library/Extensions/TotalFinder.kext"
-    rm -rf "/System/Library/Extensions/TotalFinder.kext"
-fi
-rm -rf "/Library/ScriptingAdditions/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/PlugIns/Asepsis.bundle"
-
 exit 0
