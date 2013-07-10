@@ -6,9 +6,7 @@ osascript -e 'tell application "Finder" to quit'
 
 killall -SIGINT TotalFinderCrashWatcher
 
-# this is just a safety measure
-# between 1.4.10 and 1.4.11, the structure of our app bundle changed, this caused some installation problems,
-# read more in script_app_post
+# this is just a safety measure, sometimes system probably caches .app bundles in memory
 rm -rf /Applications/TotalFinder.app
 
 exit 0
