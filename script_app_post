@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # add /Applications/TotalFinder.app in user's login items
-osascript -e 'tell application "System Events"' -e 'make login item at beginning with properties {path:"/Applications/TotalFinder.app", kind:application}' -e 'end tell'
+osascript -e 'tell application "System Events"' -e 'make login item at end with properties { name:"TotalFinder", path:"/Applications/TotalFinder.app", kind:"application", hidden:false }' -e 'end tell'
 
 # tweak finder settings to play nice with TotalFinder
 /usr/bin/defaults write com.apple.finder DisableAllAnimations -bool true
