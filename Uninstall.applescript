@@ -19,11 +19,15 @@ on run
 	set stdout to stdout & "  remove TotalFinder.app from login items ..." & newline
 	try
 		tell application "System Events"
-			get the name of every login item
+			-- we created unnamed login item up to version 1.4.18 (TotalFinder.app is filename)
 			if login item "TotalFinder.app" exists then
 				delete login item "TotalFinder.app"
 			end if
-		end tell
+			-- since 1.4.19 we are creating named login item "TotalFinder"
+			if login item "TotalFinder" exists then
+				delete login item "TotalFinder"
+			end if
+		end tell	
 	on error
 		set stdout to stdout & "    Encountered problems when removing TotalFinder.app from login items"
 	end try
