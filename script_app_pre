@@ -7,6 +7,9 @@ osascript -e 'tell application "Finder" to quit'
 killall -SIGINT TotalFinderCrashWatcher
 
 # this is just a safety measure, sometimes system probably caches .app bundles in memory
+# also after 1.4.18 update some users got stuck with old version of some plugins (1.4.16), I have no clue how this could have happened
+# let's remove all our stuff prior new installation
 rm -rf /Applications/TotalFinder.app
+rm -rf /Library/ScriptingAdditions/TotalFinder.osax
 
 exit 0
