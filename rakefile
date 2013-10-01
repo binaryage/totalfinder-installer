@@ -123,27 +123,9 @@ task :build do
         ['##BUILD_PATH##', $release]
     ])
 
-    sys("cp \"#{ROOT_DIR}/TotalFinder Uninstaller.platypus\" \"#{ROOT_DIR}/uninstaller-patched.platypus\"")
-    # patch("#{ROOT_DIR}/uninstaller-patched.platypus", [
-    #     ["/Users/darwin/code/totalfinder", "#{ROOT_DIR}/.."]
-    # ])
-
-    uninstaller = File.join(ROOT_DIR, "TotalFinder Uninstaller.app")
-    uninstaller_profile = File.join(ROOT_DIR, "uninstaller-patched.platypus")
-
-    sys("rm -rf \"#{uninstaller}\"") if File.exist? uninstaller
-    die("build failed") unless $?==0
-
-    sys("./bin/platypus/platypus_clt -P \"#{uninstaller_profile}\" \"#{uninstaller}\"")
-    die("build failed") unless $?==0
-
-    # strip uninstaller
-    sys("strip -Sx \"#{uninstaller}/Contents/MacOS/TotalFinder Uninstaller\"")
-
+    uninstaller = "#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources/TotalFinder Uninstaller.app"
     codesign(uninstaller)
 
-    sys("cp -r \"#{uninstaller}\" \"#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources\"")
-    die("build failed") unless $?==0
     lipo("#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources")
 
     # codesign stuff
