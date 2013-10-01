@@ -129,7 +129,6 @@ task :build do
     lipo("#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources")
 
     # codesign stuff
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Growl.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/finish_installation.app"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "BAKit.framework/Versions/A"))
