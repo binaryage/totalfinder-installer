@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# shutdown TotalFinde agent
+# shutdown TotalFinder agent
 killall TotalFinder
 
 # shutdown crash watcher
