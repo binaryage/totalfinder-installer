@@ -12,7 +12,7 @@ osascript -e 'tell application "System Events"' -e 'make login item at end with 
 sleep 2
 
 # this magic line will list all loginwindow processes and pick only the one belonging to currently logged-in user
-# under MAX OS X we can have multiple users logged in concruently (for fast user switching), each will have its own loginwindow process
+# under OS X we can have multiple users logged in concruently (for fast user switching), each will have its own loginwindow process
 set - `ps aux | grep loginwindow.app | grep -v 'grep loginwindow.app' | grep ^\`logname\``
 USERNAME=$1
 USERID=$2
