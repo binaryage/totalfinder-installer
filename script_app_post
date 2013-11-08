@@ -11,11 +11,13 @@ osascript -e 'tell application "System Events"' -e 'make login item at end with 
 
 sleep 2
 
-set `ps aux | grep loginwindow.app | grep -v grep`
+# this magic line will list all loginwindow processes and pick only the one belonging to currently logged-in user
+# under MAX OS X we can have multiple users logged in concruently (for fast user switching), each will have its own loginwindow process
+set - `ps aux | grep loginwindow.app | grep -v 'grep loginwindow.app' | grep ^\`logname\``
 USERNAME=$1
 USERID=$2
 
-echo "login window user name is \"$USERNAME\" and PID is $USERID"
+echo "login window user name is \"$USERNAME\" and PID is \"$USERID\""
 
 if [[ -n "$USERNAME" && -n "$USERID" ]]; then
   /bin/launchctl bsexec "$USERID" /usr/bin/su "$USERNAME" -c "/usr/bin/open /Applications/TotalFinder.app"
