@@ -11,14 +11,18 @@ osascript -e 'tell application "System Events"' -e 'make login item at end with 
 
 sleep 2
 
-# this magic line will list all loginwindow processes and pick only the one belonging to currently logged-in user
-# under OS X we can have multiple users logged in concruently (for fast user switching), each will have its own loginwindow process
-set - `ps aux | grep loginwindow.app | grep -v 'grep loginwindow.app' | grep ^\`logname\``
-USERNAME=$1
-USERID=$2
+# the goal here is to relaunch Finder.app under the right user aka "Mach bootstrap namespace"
+# note: we can have multiple users logged in concruently (for fast user switching), each has its own loginwindow process
+# in $OUTPUT we will list all loginwindow processes and pick only the one belonging to the currently logged-in user
+USERID=`id -u "$USER"`
+OUTPUT=`ps -lax | grep '[l]oginwindow.app' | grep "^[ ]*$USERID "`
+if [ -n "$OUTPUT" ]; then
+  set - $OUTPUT
+  PID=$2
 
-echo "login window user name is \"$USERNAME\" and PID is \"$USERID\""
+  echo "login window user name is \"$USER\" and PID is \"$PID\""
 
-if [[ -n "$USERNAME" && -n "$USERID" ]]; then
-  /bin/launchctl bsexec "$USERID" /usr/bin/su "$USERNAME" -c "/usr/bin/open /Applications/TotalFinder.app"
+  if [[ -n "$USER" && -n "$PID" ]]; then
+    /bin/launchctl bsexec "$PID" /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
+  fi
 fi
