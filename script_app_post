@@ -23,6 +23,6 @@ if [ -n "$OUTPUT" ]; then
   echo "login window user name is \"$USER\" and PID is \"$PID\""
 
   if [[ -n "$USER" && -n "$PID" ]]; then
-    /bin/launchctl bsexec "$PID" /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
+    /bin/launchctl bsexec "$PID" /usr/bin/env -i /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
   fi
 fi
