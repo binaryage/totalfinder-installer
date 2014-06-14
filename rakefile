@@ -7,7 +7,8 @@ TMP_DIR_BUILD = File.join(TMP_DIR, 'build')
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BUILD_DIR = File.join(PARENT_DIR, 'build')
-BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_DIR, 'TotalFinder.osax/Contents/Resources/TotalFinder.bundle')
+BUILD_OSAX_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.osax/Contents/Resources')
+BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_OSAX_RESOURCES, 'TotalFinder.bundle')
 BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
 BUILD_TOTALFINDER_FRAMEWORKS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
 BUILD_TOTALFINDER_RESOURCES = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Resources')
@@ -62,12 +63,14 @@ end
 
 def codesign(path)
   sys("codesign --force --sign \"Developer ID Application: BinaryAge Limited\" \"#{path}\"")
+  die("build failed") unless $?==0
 end
 
 def productsign(path)
   tmp_path = path+"-tmp"
   sys("mv \"#{path}\" \"#{tmp_path}\"")
   sys("productsign --sign \"Developer ID Installer: BinaryAge Limited\" \"#{tmp_path}\" \"#{path}\"")
+  die("build failed") unless $?==0
   sys("rm \"#{tmp_path}\"")
 end
 
@@ -125,7 +128,19 @@ task :build do
 
     lipo("#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources")
 
+    # prepare two versions of agent, they will only differ in icon (Yosemite Finder changed its icon)
+    sys("mkdir -p TotalFinder.app/Contents/Resources")
+    pre_yosemite_agent = File.join(BUILD_OSAX_RESOURCES, "Agent", "10.9")
+    post_yosemite_agent = File.join(BUILD_OSAX_RESOURCES, "Agent", "10.10")
+    sys("mkdir -p \"#{pre_yosemite_agent}\" && cp -r \"#{BUILD_DIR}/TotalFinder.app\" \"#{pre_yosemite_agent}\"")
+    yosemite_icon = File.join(BUILD_TOTALFINDER_RESOURCES, "TotalFinderIcon2.icns")
+    agent_icon_location = File.join(post_yosemite_agent, "TotalFinder.app", "Contents", "Resources", "Icon.icns")
+    sys("mkdir -p \"#{post_yosemite_agent}\" && cp -r \"#{BUILD_DIR}/TotalFinder.app\" \"#{post_yosemite_agent}\" && cp \"#{yosemite_icon}\" \"#{agent_icon_location}\"")
+
     # codesign stuff
+    codesign("#{pre_yosemite_agent}/TotalFinder.app")
+    codesign("#{post_yosemite_agent}/TotalFinder.app")
+
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/finish_installation.app"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "BAKit.framework/Versions/A"))
@@ -147,8 +162,6 @@ task :build do
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
     die("build failed") unless $?==0
-
-    codesign("#{BUILD_DIR}/TotalFinder.app")
 
     sys("./bin/packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     die("build failed") unless $?==0

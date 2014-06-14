@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# replace /Applications/TotalFinder.app with pre-Yosemite version, if needed
+TMP=`sw_vers -productVersion|grep '10\.\(8\|9\)'`
+if [ $? -eq 0 ]; then
+  rm -rf /Applications/TotalFinder.app
+  cp -a /Library/ScriptingAdditions/TotalFinder.osax/Contents/Resources/Agent/10.9/TotalFinder.app /Applications
+fi
+
 # add /Applications/TotalFinder.app in user's login items
 osascript -e 'tell application "System Events"' -e 'make login item at end with properties { name:"TotalFinder", path:"/Applications/TotalFinder.app", kind:"application", hidden:false }' -e 'end tell'
 
