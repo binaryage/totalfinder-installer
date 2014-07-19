@@ -1,12 +1,10 @@
 require 'rake'
 
+TMP_DIR = "/tmp/root/totalfinder-installer-tmp"
 ROOT_DIR = File.expand_path('.')
-TMP_DIR = File.join(ROOT_DIR, 'tmp')
-TMP_DIR_BUILD = File.join(TMP_DIR, 'build')
-
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
-BUILD_DIR = File.join(PARENT_DIR, 'build')
+BUILD_DIR = File.join(PARENT_DIR, '.build')
 BUILD_OSAX_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.osax/Contents/Resources')
 BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_OSAX_RESOURCES, 'TotalFinder.bundle')
 BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
@@ -97,23 +95,8 @@ desc "builds installer+unistaller, point it to products=<path>"
 task :build do
     puts "#{'Checking environment ...'.magenta}"
     version()
-    sys("rm -rf \"#{TMP_DIR}\"")
-    sys("mkdir -p #{TMP_DIR}") unless File.exists? TMP_DIR
-    sys("mkdir -p #{TMP_DIR_BUILD}") unless File.exists? TMP_DIR_BUILD
-    sys("mkdir -p #{RELEASE_DIR}") unless File.exists? RELEASE_DIR
 
-    $products = ENV["products"]
-    unless $products then
-        puts "no products path specified, using dummy products".red
-        sys("mkdir -p \"#{BUILD_DIR}\"")
-        Dir.chdir BUILD_DIR do
-            sys("mkdir -p TotalFinder.app/Contents/Resources")
-        end
-        $products = BUILD_DIR
-    end
-    $products = File.expand_path($products)
-
-    $release = File.expand_path(ENV["release"] || RELEASE_DIR)
+    $release = File.expand_path(ENV["release"])
 
     sys("cp \"#{ROOT_DIR}/installer.pkgproj\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
     patch("#{ROOT_DIR}/installer-patched.pkgproj", [
@@ -178,10 +161,8 @@ task :build do
     die("build failed") unless $?==0
 
     readme_source = File.join(I18N_DIR_INSTALLER, "readme.pdf")
-    readme = File.join(TMP_DIR, "Readme.pdf")
-    sys("mv \"#{readme_source}\" \"#{readme}\"")
 
-    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme}\"")
+    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme_source}\"")
     die("build failed") unless $?==0
 end
 
