@@ -106,10 +106,10 @@ task :build do
         ['##BUILD_PATH##', $release]
     ])
 
-    uninstaller = "#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources/TotalFinder Uninstaller.app"
+    uninstaller = "#{BUILD_TOTALFINDER_RESOURCES}/TotalFinder Uninstaller.app"
     codesign(uninstaller)
 
-    lipo("#{BUILD_DIR}/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources")
+    lipo(BUILD_TOTALFINDER_RESOURCES)
 
     # prepare two versions of agent, they will only differ in icon (Yosemite Finder changed its icon)
     sys("mkdir -p TotalFinder.app/Contents/Resources")
