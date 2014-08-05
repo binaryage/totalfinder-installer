@@ -111,6 +111,10 @@ task :build do
 
     lipo(BUILD_TOTALFINDER_RESOURCES)
 
+    patch("#{BUILD_DIR}/TotalFinder.app/Contents/Info.plist", [
+        ['##VERSION##', $version]
+    ])
+
     # prepare two versions of agent, they will only differ in icon (Yosemite Finder changed its icon)
     sys("mkdir -p TotalFinder.app/Contents/Resources")
     pre_yosemite_agent = File.join(BUILD_OSAX_RESOURCES, "Agent", "10.9")
@@ -137,10 +141,6 @@ task :build do
     codesign(File.join(BUILD_TOTALFINDER_RESOURCES, "TotalFinderCrashWatcher.app"))
     codesign(File.join(BUILD_TOTALFINDER_BUNDLE))
     codesign(File.join(BUILD_DIR, "TotalFinder.osax"))
-
-    patch("#{BUILD_DIR}/TotalFinder.app/Contents/Info.plist", [
-        ['##VERSION##', $version]
-    ])
 
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
