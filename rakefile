@@ -31,9 +31,15 @@ def die(msg, status=1)
     exit status||$?
 end
 
+def announce(cmd)
+  puts "> " + cmd.yellow
+end
+
 def sys(cmd)
-    puts "> #{cmd}".yellow
-    system(cmd)
+  announce(cmd)
+  if not system(cmd) then
+    die "error #{$?}"
+  end
 end
 
 ################################################################################################
@@ -107,13 +113,16 @@ task :build do
     ])
 
     uninstaller = "#{BUILD_TOTALFINDER_RESOURCES}/TotalFinder Uninstaller.app"
-    codesign(uninstaller)
 
-    lipo(BUILD_TOTALFINDER_RESOURCES)
+    patch("#{uninstaller}/Contents/Info.plist", [
+        ['##VERSION##', $version]
+    ])
 
     patch("#{BUILD_DIR}/TotalFinder.app/Contents/Info.plist", [
         ['##VERSION##', $version]
     ])
+
+    lipo(BUILD_TOTALFINDER_RESOURCES)
 
     # prepare two versions of agent, they will only differ in icon (Yosemite Finder changed its icon)
     sys("mkdir -p TotalFinder.app/Contents/Resources")
@@ -125,6 +134,7 @@ task :build do
     sys("mkdir -p \"#{post_yosemite_agent}\" && cp -r \"#{BUILD_DIR}/TotalFinder.app\" \"#{post_yosemite_agent}\" && cp \"#{yosemite_icon}\" \"#{agent_icon_location}\"")
 
     # codesign stuff
+    codesign(uninstaller)
     codesign("#{pre_yosemite_agent}/TotalFinder.app")
     codesign("#{post_yosemite_agent}/TotalFinder.app")
 
@@ -144,26 +154,21 @@ task :build do
 
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
-    die("build failed") unless $?==0
 
     sys("./bin/packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
-    die("build failed") unless $?==0
+
+    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
+    sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
+
+    releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
+    sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
+
+    readme_source = File.join(I18N_DIR_INSTALLER, "readme.pdf")
 
     # codesign the pkg
     productsign(release)
 
-    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
-    sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
-    die("build failed") unless $?==0
-
-    releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
-    sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
-    die("build failed") unless $?==0
-
-    readme_source = File.join(I18N_DIR_INSTALLER, "readme.pdf")
-
     sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme_source}\"")
-    die("build failed") unless $?==0
 end
 
 task :default => :build
