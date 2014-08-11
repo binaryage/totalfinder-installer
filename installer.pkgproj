@@ -846,7 +846,7 @@
 						<key>IC_REQUIREMENT_OS_DISTRIBUTION_TYPE</key>
 						<integer>0</integer>
 						<key>IC_REQUIREMENT_OS_MINIMUM_VERSION</key>
-						<integer>100700</integer>
+						<integer>100800</integer>
 					</dict>
 					<key>IC_REQUIREMENT_CHECK_TYPE</key>
 					<integer>0</integer>
@@ -860,7 +860,7 @@
 							<key>SECONDARY_VALUE</key>
 							<string></string>
 							<key>VALUE</key>
-							<string>Latest TotalFinder runs only with Lions (OS X 10.7+)</string>
+							<string>TotalFinder requires Mountain Lion (OSX 10.8) or later</string>
 						</dict>
 					</array>
 					<key>NAME</key>
