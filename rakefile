@@ -157,9 +157,6 @@ task :build do
 
     sys("./bin/packagesbuild -v -F \"#{ROOT_DIR}\" \"#{ROOT_DIR}/installer-patched.pkgproj\"")
 
-    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
-    sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
-
     releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
     sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
 
@@ -167,6 +164,9 @@ task :build do
 
     # codesign the pkg
     productsign(release)
+
+    installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
+    sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
 
     sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme_source}\"")
 end
