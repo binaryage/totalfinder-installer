@@ -18,18 +18,24 @@ osascript -e 'tell application "System Events"' -e 'make login item at end with 
 
 sleep 2
 
-# the goal here is to relaunch Finder.app under the right user aka "Mach bootstrap namespace"
-# note: we can have multiple users logged in concruently (for fast user switching), each has its own loginwindow process
-# in $OUTPUT we will list all loginwindow processes and pick only the one belonging to the currently logged-in user
-USERID=`id -u "$USER"`
-OUTPUT=`ps -lax | grep '[l]oginwindow.app' | grep "^[ ]*$USERID "`
-if [ -n "$OUTPUT" ]; then
-  set - $OUTPUT
-  PID=$2
+TMP=`sw_vers -productVersion|grep '10\.\(8\|9\|10\)'`
+if [ $? -eq 0 ]; then
+  # the goal here is to relaunch Finder.app under the right user aka "Mach bootstrap namespace"
+  # note: we can have multiple users logged in concruently (for fast user switching), each has its own loginwindow process
+  # in $OUTPUT we will list all loginwindow processes and pick only the one belonging to the currently logged-in user
+  USERID=`id -u "$USER"`
+  OUTPUT=`ps -lax | grep '[l]oginwindow.app' | grep "^[ ]*$USERID "`
+  if [ -n "$OUTPUT" ]; then
+    set - $OUTPUT
+    PID=$2
 
-  echo "login window user name is \"$USER\" and PID is \"$PID\""
+    echo "login window user name is \"$USER\" and PID is \"$PID\""
 
-  if [[ -n "$USER" && -n "$PID" ]]; then
-    /bin/launchctl bsexec "$PID" /usr/bin/env -i /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
+    if [[ -n "$USER" && -n "$PID" ]]; then
+      /bin/launchctl bsexec "$PID" /usr/bin/env -i /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
+    fi
   fi
+else # since 10.11
+  # launchctl magic does not work anymore under 10.11 (El Capitan), probably due to use of inappropriate task_for_pid call
+  open /Applications/TotalFinder.app
 fi
