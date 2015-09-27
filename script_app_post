@@ -35,7 +35,31 @@ if [ $? -eq 0 ]; then
       /bin/launchctl bsexec "$PID" /usr/bin/env -i /usr/bin/su "$USER" -c "/usr/bin/open /Applications/TotalFinder.app"
     fi
   fi
-else # since 10.11
-  # launchctl magic does not work anymore under 10.11 (El Capitan), probably due to use of inappropriate task_for_pid call
-  open /Applications/TotalFinder.app
+else 
+  # since 10.11
+  echo "detected El Capitan or higher"
+
+  # launchctl bsexec magic does not work anymore under 10.11 (El Capitan)
+  # we have to follow https://lists.macosforge.org/pipermail/launchd-dev/2015-July/001139.html
+
+  LAUCH_AGENTS_BOOT_PLIST_PATH="/Library/LaunchAgents/com.binaryage.totalfinder.agent.plist"
+  LAUNCHD_BOOT_PLIST_SOURCE="/Library/ScriptingAdditions/TotalFinder.osax/Contents/Resources/TotalFinder.bundle/Contents/Resources/com.binaryage.totalfinder.agent.plist"
+
+  echo "installing $LAUCH_AGENTS_BOOT_PLIST_PATH"
+
+  cp "$LAUNCHD_BOOT_PLIST_SOURCE" "$LAUCH_AGENTS_BOOT_PLIST_PATH"
+  
+  USERID=`id -u "$USER"`
+
+  echo "loading boot launch agent via /bin/launchctl bootstrap gui/$USERID"
+
+  /bin/launchctl "bootout" "gui/$USERID" "$LAUCH_AGENTS_BOOT_PLIST_PATH" # just for case it is still loaded
+  /bin/launchctl "bootstrap" "gui/$USERID" "$LAUCH_AGENTS_BOOT_PLIST_PATH"
+
+  echo "grep of launch agents lists: `launchctl list | grep com.binaryage`"
+
+  sleep 2
+
+  echo "removing $LAUCH_AGENTS_BOOT_PLIST_PATH"
+  rm "$LAUCH_AGENTS_BOOT_PLIST_PATH"
 fi
