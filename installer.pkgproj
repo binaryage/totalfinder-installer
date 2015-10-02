@@ -659,7 +659,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/English.lproj/welcome.rtf</string>
+							<string>../i18n/installer/en.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -670,7 +670,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Japanese.lproj/welcome.rtf</string>
+							<string>../i18n/installer/ja.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -681,7 +681,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Italian.lproj/welcome.rtf</string>
+							<string>../i18n/installer/it.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -692,7 +692,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Polish.lproj/welcome.rtf</string>
+							<string>../i18n/installer/pl.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -703,7 +703,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Russian.lproj/welcome.rtf</string>
+							<string>../i18n/installer/ru.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -714,7 +714,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/French.lproj/welcome.rtf</string>
+							<string>../i18n/installer/fr.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -736,7 +736,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/German.lproj/welcome.rtf</string>
+							<string>../i18n/installer/de.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -758,7 +758,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Spanish.lproj/welcome.rtf</string>
+							<string>../i18n/installer/es.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -769,7 +769,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Greek.lproj/welcome.rtf</string>
+							<string>../i18n/installer/el.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
@@ -780,7 +780,7 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>../i18n/installer/Macedonian.lproj/welcome.rtf</string>
+							<string>../i18n/installer/mk.lproj/welcome.rtf</string>
 							<key>PATH_TYPE</key>
 							<integer>1</integer>
 						</dict>
