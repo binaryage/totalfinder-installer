@@ -5,8 +5,8 @@ ROOT_DIR = File.expand_path('.')
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BUILD_DIR = File.join(PARENT_DIR, '.build')
-BUILD_OSAX_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.osax/Contents/Resources')
-BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_OSAX_RESOURCES, 'TotalFinder.bundle')
+BUILD_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.app/Contents/Resources')
+BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_RESOURCES, 'TotalFinder.bundle')
 BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
 BUILD_TOTALFINDER_FRAMEWORKS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
 BUILD_TOTALFINDER_RESOURCES = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Resources')
@@ -124,19 +124,9 @@ task :build do
 
     lipo(BUILD_TOTALFINDER_RESOURCES)
 
-    # prepare two versions of agent, they will only differ in icon (Yosemite Finder changed its icon)
-    sys("mkdir -p TotalFinder.app/Contents/Resources")
-    pre_yosemite_agent = File.join(BUILD_OSAX_RESOURCES, "Agent", "10.9")
-    post_yosemite_agent = File.join(BUILD_OSAX_RESOURCES, "Agent", "10.10")
-    sys("mkdir -p \"#{pre_yosemite_agent}\" && cp -r \"#{BUILD_DIR}/TotalFinder.app\" \"#{pre_yosemite_agent}\"")
-    yosemite_icon = File.join(BUILD_TOTALFINDER_RESOURCES, "TotalFinderIcon2.icns")
-    agent_icon_location = File.join(post_yosemite_agent, "TotalFinder.app", "Contents", "Resources", "Icon.icns")
-    sys("mkdir -p \"#{post_yosemite_agent}\" && cp -r \"#{BUILD_DIR}/TotalFinder.app\" \"#{post_yosemite_agent}\" && cp \"#{yosemite_icon}\" \"#{agent_icon_location}\"")
-
     # codesign stuff
     codesign(uninstaller)
-    codesign("#{pre_yosemite_agent}/TotalFinder.app")
-    codesign("#{post_yosemite_agent}/TotalFinder.app")
+    codesign(File.join(BUILD_DIR, "TotalFinder.app"))
 
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
