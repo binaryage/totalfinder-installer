@@ -128,7 +128,9 @@ task :build do
     codesign(uninstaller)
     codesign(File.join(BUILD_DIR, "TotalFinder.app"))
 
+    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app/Contents/MacOS/fileop"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app"))
+    
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "BAKit.framework/Versions/A"))
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "TotalKit.framework/Versions/A"))
