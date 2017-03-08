@@ -6,6 +6,8 @@ PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BUILD_DIR = File.join(PARENT_DIR, '.build')
 BUILD_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.app/Contents/Resources')
+BUILD_TOTALFINDER_SIPXASO = File.join(BUILD_RESOURCES, "TotalFinderSIP.xaso")
+BUILD_TOTALFINDER_SIPOSAX = File.join(BUILD_RESOURCES, "TotalFinderSIP.osax")
 BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_RESOURCES, 'TotalFinder.bundle')
 BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
 BUILD_TOTALFINDER_FRAMEWORKS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
@@ -126,6 +128,9 @@ task :build do
 
     # codesign stuff
     codesign(uninstaller)
+
+    sys("mv '#{BUILD_TOTALFINDER_SIPXASO}' '#{BUILD_TOTALFINDER_SIPOSAX}'")
+    codesign(BUILD_TOTALFINDER_SIPOSAX)
     codesign(File.join(BUILD_DIR, "TotalFinder.app"))
 
     codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app/Contents/MacOS/fileop"))
