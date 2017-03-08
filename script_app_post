@@ -32,51 +32,6 @@ else
   # since 10.11
   echo "detected El Capitan or higher"
   
-  # here it gets a bit complicated, we want to support two workflows:
-  # A) people with partially disabled SIP and stay that way
-  # B) people who disable SIP fully for initial installation and then re-enable it fully for normal operations (including TotalFinder updates)
-  #
-  # right after installation, TotalFinder.osax is always located in /Library/ScriptingAdditions/TotalFinder.osax
-  # in case SIP is fully disabled (or filesystem protection is off), we want to:
-  #   move it into /System/Library/ScriptingAdditions/TotalFinder.osax (to support workflow B)
-  # if it is not possible, we want to:
-  #   delete /Library/ScriptingAdditions/TotalFinder.osax if /System/Library/ScriptingAdditions/TotalFinder.osax is present (workflow B situation with TotalFinder update)
-  #   else we want to keep /Library/ScriptingAdditions/TotalFinder.osax as is (workflow A)
-  #
-  # note: this whole step can be skipped using a flag file ~/.totalfinder-dont-install-system-osax
-  
-  DONT_INSTALL_FLAG_FILE="/Users/$USER/.totalfinder-dont-install-system-osax"
-  if [ ! -f "$DONT_INSTALL_FLAG_FILE" ]; then
-    SIP_STATUS=`csrutil status | grep "System Integrity Protection status" | cut -d ":" -f 2 | xargs | cut -d " " -f 1 | cut -d "." -f 1` # should be "enabled" or "disabled"
-    FS_PROTECT=`csrutil status | grep "Filesystem Protections:" | cut -d ":" -f 2 | xargs | cut -d " " -f 1` # should be "enabled", "disabled" or ""
-    DEBUG_PROTECT=`csrutil status | grep "Debugging Restrictions:" | cut -d ":" -f 2 | xargs | cut -d " " -f 1` # should be "enabled", "disabled" or ""
-    
-    echo "SIP_STATUS: '$SIP_STATUS', FS_PROTECT: '$FS_PROTECT', DEBUG_PROTECT: '$DEBUG_PROTECT'"
-    
-    SYSTEM_TOTALFINDER_OSAX="/System/Library/ScriptingAdditions/TotalFinder.osax"
-    LIBRARY_TOTALFINDER_OSAX="/Library/ScriptingAdditions/TotalFinder.osax"
-    
-    if [ "$SIP_STATUS" == "disabled" ] || [ "$FS_PROTECT" == "disabled" ]; then
-      rm -rf "$SYSTEM_TOTALFINDER_OSAX"
-      mv "$LIBRARY_TOTALFINDER_OSAX" "$SYSTEM_TOTALFINDER_OSAX"
-      
-      if [ -d "$SYSTEM_TOTALFINDER_OSAX" ]; then
-        echo "moved osax from '$LIBRARY_TOTALFINDER_OSAX' to '$SYSTEM_TOTALFINDER_OSAX' (workflow B)"
-      else
-        echo "attempted to move osax from /Library/ScriptingAdditions to /System/Library/ScriptingAdditions, but failed"
-      fi
-    else
-      if [ -d "$SYSTEM_TOTALFINDER_OSAX" ]; then
-        rm -rf "$LIBRARY_TOTALFINDER_OSAX"
-        echo "deleted '$LIBRARY_TOTALFINDER_OSAX' because '$SYSTEM_TOTALFINDER_OSAX' is present (workflow B)"
-      else
-        echo "keep '$LIBRARY_TOTALFINDER_OSAX' as is because '$SYSTEM_TOTALFINDER_OSAX' is not present (workflow A)"
-      fi
-    fi
-  else
-    echo "flag file '$DONT_INSTALL_FLAG_FILE' exists => don't attempt to install system osax"
-  fi
-
   # launchctl bsexec magic does not work anymore under 10.11 (El Capitan)
   # we have to follow https://lists.macosforge.org/pipermail/launchd-dev/2015-July/001139.html
 
