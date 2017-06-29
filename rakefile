@@ -5,16 +5,19 @@ ROOT_DIR = File.expand_path('.')
 PARENT_DIR = File.expand_path('..')
 RELEASE_DIR = File.join(PARENT_DIR, 'release')
 BUILD_DIR = File.join(PARENT_DIR, '.build')
-BUILD_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.app/Contents/Resources')
-BUILD_TOTALFINDER_SIPXASO = File.join(BUILD_RESOURCES, "TotalFinderSIP.xaso")
-BUILD_TOTALFINDER_SIPOSAX = File.join(BUILD_RESOURCES, "TotalFinderSIP.osax")
-BUILD_TOTALFINDER_BUNDLE = File.join(BUILD_RESOURCES, 'TotalFinder.bundle')
-BUILD_TOTALFINDER_PLUGINS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/PlugIns')
-BUILD_TOTALFINDER_FRAMEWORKS = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Frameworks')
-BUILD_TOTALFINDER_RESOURCES = File.join(BUILD_TOTALFINDER_BUNDLE, 'Contents/Resources')
+BUILD_OSAX =  File.join(BUILD_DIR, 'TotalFinder.osax')
+BUILD_APP =  File.join(BUILD_DIR, 'TotalFinder.app')
+BUILD_APP_RESOURCES = File.join(BUILD_DIR, 'TotalFinder.app/Contents/Resources')
+BUILD_APP_BUNDLE = File.join(BUILD_APP_RESOURCES, 'TotalFinder.bundle')
+BUILD_APP_OSAXSIP = File.join(BUILD_APP_RESOURCES, 'TotalFinderSIP.osax')
+BUILD_APP_BUNDLE_PLUGINS = File.join(BUILD_APP_BUNDLE, 'Contents/PlugIns')
+BUILD_APP_BUNDLE_FRAMEWORKS = File.join(BUILD_APP_BUNDLE, 'Contents/Frameworks')
+BUILD_APP_BUNDLE_RESOURCES = File.join(BUILD_APP_BUNDLE, 'Contents/Resources')
+BUILD_APP_BUNDLE_RESOURCES_UNINSTALLER = File.join(BUILD_APP_BUNDLE_RESOURCES, 'TotalFinder Uninstaller.app')
 
 I18N_DIR = File.join(PARENT_DIR, 'i18n')
 I18N_DIR_INSTALLER = File.join(I18N_DIR, 'installer')
+I18N_DIR_INSTALLER_README = File.join(I18N_DIR_INSTALLER, 'readme.pdf')
 
 ################################################################################################
 # dependencies
@@ -114,9 +117,7 @@ task :build do
         ['##BUILD_PATH##', $release]
     ])
 
-    uninstaller = "#{BUILD_TOTALFINDER_RESOURCES}/TotalFinder Uninstaller.app"
-
-    patch("#{uninstaller}/Contents/Info.plist", [
+    patch("#{BUILD_APP_BUNDLE_RESOURCES_UNINSTALLER}/Contents/Info.plist", [
         ['##VERSION##', $version]
     ])
 
@@ -124,30 +125,29 @@ task :build do
         ['##VERSION##', $version]
     ])
 
-    lipo(BUILD_TOTALFINDER_RESOURCES)
+    lipo(BUILD_APP_BUNDLE_RESOURCES)
 
     # codesign stuff
-    codesign(uninstaller)
-
-    sys("mv '#{BUILD_TOTALFINDER_SIPXASO}' '#{BUILD_TOTALFINDER_SIPOSAX}'")
-    codesign(BUILD_TOTALFINDER_SIPOSAX)
-    codesign(File.join(BUILD_DIR, "TotalFinder.app"))
-
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app/Contents/MacOS/fileop"))
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app"))
+    codesign(File.join(BUILD_APP_BUNDLE_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app/Contents/MacOS/fileop"))
+    codesign(File.join(BUILD_APP_BUNDLE_FRAMEWORKS, "Sparkle.framework/Versions/A/Resources/Updater.app"))
     
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "Sparkle.framework/Versions/A"))
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "BAKit.framework/Versions/A"))
-    codesign(File.join(BUILD_TOTALFINDER_FRAMEWORKS, "TotalKit.framework/Versions/A"))
-    Dir.glob(File.join(BUILD_TOTALFINDER_PLUGINS, "*")) do |plugin|
+    codesign(File.join(BUILD_APP_BUNDLE_FRAMEWORKS, "Sparkle.framework/Versions/A"))
+    codesign(File.join(BUILD_APP_BUNDLE_FRAMEWORKS, "BAKit.framework/Versions/A"))
+    codesign(File.join(BUILD_APP_BUNDLE_FRAMEWORKS, "TotalKit.framework/Versions/A"))
+    Dir.glob(File.join(BUILD_APP_BUNDLE_PLUGINS, "*")) do |plugin|
         codesign(plugin)
         Dir.glob(File.join(File.join(plugin, "Contents", "Frameworks"), "*")) do |framework|
           codesign(File.join(framework, "Versions", "A"))
         end
     end
-    codesign(File.join(BUILD_TOTALFINDER_RESOURCES, "TotalFinderCrashWatcher.app"))
-    codesign(File.join(BUILD_TOTALFINDER_BUNDLE))
-    codesign(File.join(BUILD_DIR, "TotalFinder.osax"))
+    codesign(File.join(BUILD_APP_BUNDLE_RESOURCES, "TotalFinderCrashWatcher.app"))
+    codesign(File.join(BUILD_APP_BUNDLE))
+
+    codesign(BUILD_APP_BUNDLE_RESOURCES_UNINSTALLER)
+    codesign(BUILD_APP_OSAXSIP)
+    codesign(BUILD_APP)
+    
+    codesign(BUILD_OSAX)
 
     release = File.join($release, "TotalFinder.pkg") # THIS MUST BE THE SAME NAME AS OF THE APP! REQUIRED BY SPARKLE
     sys("rm -rf \"#{release}\"") if File.exist? release
@@ -157,15 +157,13 @@ task :build do
     releasedmg = File.join($release, "TotalFinder-#{$version}.dmg")
     sys("rm -rf \"#{releasedmg}\"") if File.exist? releasedmg
 
-    readme_source = File.join(I18N_DIR_INSTALLER, "readme.pdf")
-
     # codesign the pkg
     productsign(release)
 
     installer_icon = File.join(I18N_DIR_INSTALLER, "totalfinder-installer.icns")
     sys("./bin/setfileicon \"#{installer_icon}\" \"#{release}\"")
 
-    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{uninstaller}\" -srcfolder \"#{readme_source}\"")
+    sys("hdiutil create \"#{releasedmg}\" -volname \"TotalFinder\" -format UDBZ -fs HFS+ -srcfolder \"#{release}\" -srcfolder \"#{BUILD_APP_BUNDLE_RESOURCES_UNINSTALLER}\" -srcfolder \"#{I18N_DIR_INSTALLER_README}\"")
 end
 
 task :default => :build
